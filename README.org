@@ -1,0 +1,10 @@
+#+TITLE: TST Exercise
+* Running
+#+begin_src sh
+./mill tst.run
+#+end_src
+* Testing
+#+begin_src sh
+./mill tst.tests # Basic functionality tests
+./mill tst.stress # Some large-ish data to make sure my asymptotics aren't accidentally horrible
+#+end_src
