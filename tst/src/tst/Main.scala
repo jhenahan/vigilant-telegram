@@ -46,8 +46,8 @@ object Main extends IOApp.Simple {
     )
 
     val allCombos = allCombinablePromotions(promotions)
-    val p1 = CombinablePromotions.combinablePromotions("P1", promotions)
-    val p2 = CombinablePromotions.combinablePromotions("P2", promotions)
+    val p1        = CombinablePromotions.combinablePromotions("P1", promotions)
+    val p2        = CombinablePromotions.combinablePromotions("P2", promotions)
     val results = Seq(
       "Exercise 2: Get Valid Promo Combinations",
       "All Combinations",
