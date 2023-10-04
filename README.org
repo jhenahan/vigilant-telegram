@@ -1,10 +1,42 @@
 #+TITLE: TST Exercise
 * Running
 #+begin_src sh
-./mill tst.run
+  ./mill tst.run
+
+  # Or, if you don't have your own working JDK
+
+  ./jabba ./mill tst.run
 #+end_src
 * Testing
 #+begin_src sh
-./mill tst.tests # Basic functionality tests
-./mill tst.stress # Some large-ish data to make sure my asymptotics aren't accidentally horrible
+  ./mill tst.tests # Basic functionality tests
+  ./mill tst.stress # Some large-ish data to make sure my asymptotics aren't accidentally horrible
+
+  # Or
+
+  ./jabba ./mill tst.tests
+  ./jabba ./mill tst.stress
+#+end_src
+* Env Setup
+The bulk of the code in this repository is now Nix code, reflecting the sort of build environment I generally work in for Scala projects. This includes things like build tools, formatters, Git hooks, and so on. None of this is required to build this project, though, so steps are provided to get the minimal elements (JDK and `mill`) set up on anything sufficiently Unix-like.
+
+The configured versions at this checkout are:
+
+#+begin_example
+Java Version is 17.0.8.1
+Scala Version is 2.13.12
+Mill Version is 0.11.4
+#+end_example
+
+*** Nix + direnv
+#+begin_src sh
+  direnv allow
+#+end_src
+*** Nix - direnv
+#+begin_src sh
+  nix develop .
+#+end_src
+*** Others
+#+begin_src sh
+  ./jabba install # Install the version of Zulu JDK17 we expect
 #+end_src
