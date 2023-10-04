@@ -11,9 +11,51 @@ object CombinablePromotions {
       promotionCode: String,
       allPromotions: Seq[Promotion]
   ): Seq[PromotionCombo] = {
-    allCombinablePromotions(allPromotions).filter(
-      _.promotionCodes.contains(promotionCode)
-    )
+    allCombinablePromotions(allPromotions)
+      .filter(
+        _.promotionCodes.contains(promotionCode)
+      )
+      .map { combo =>
+        /** This is less than lovely. There's an implied requirement in the
+          * given specification that the combinable promotions ought to start
+          * with the targeted promo code. This requirement is not evident in the
+          * "all combinations" case, in which promo combinations are ordered by
+          * promo code. For the sake of the exercise, we'll assume that this is
+          * a functional requirement rather than a presentational one. If this
+          * were only a presentational concern, I'd probably just write a Show
+          * instance that does all the ugly stuff on demand.
+          *
+          * Partitioning is a slightly odd choice here; if a promo code occurred
+          * multiple times in a PromotionCombo then we'd end up putting them all
+          * up front. We know this can't happen, though, since we construct our
+          * promotion code collections as if they were sets (see the use of
+          * `_.distinctBy(_.toSet)` down below). Ideally, I think I'd rather
+          * find a way to just get this right by construction so we don't have
+          * to rely on the distant Set transformation.
+          *
+          * As a first pass, I'd probably aim to use Set pervasively for
+          * promotion codes; the spec implies that this could be a reasonable
+          * choice, but I'd want to get confirmation from an expert. `Seq` is a
+          * really wide contract and I'd much rather use a more legible
+          * collection if there are properties we can exploit to clarify things.
+          *
+          * It should be feasible to build a custom data structure to maintain
+          * this property, but for the scope of the exercise it wouldn't really
+          * end up much different than this partition.
+          *
+          * I also had a cute idea about writing a custom `Ordering` so I could
+          * just sort the promo codes by some infernal logic, but that felt
+          * almost deliberately obscurantist.
+          *
+          * In a product context, I'd probably push pretty strongly to either
+          * motivate the ordering requirement more explicitly or drop it. As is,
+          * it feels like a bit of a trick (or maybe just an overly optimistic
+          * product spec).
+          */
+        val (targetPromo, rest) =
+          combo.promotionCodes.partition(_ == promotionCode)
+        combo.copy(promotionCodes = targetPromo ++ rest)
+      }
   }
 
   /** There's a union-find (disjoint set) implementation lurking in here, but

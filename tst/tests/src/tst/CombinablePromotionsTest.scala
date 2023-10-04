@@ -51,7 +51,7 @@ class CombinablePromotionsTest extends FunSuite {
   }
   test("acceptance test: P3 combinations") {
     val expected = Seq(
-      PromotionCombo(Seq("P2", "P3")),
+      PromotionCombo(Seq("P3", "P2")),
       PromotionCombo(Seq("P3", "P4", "P5"))
     )
 
