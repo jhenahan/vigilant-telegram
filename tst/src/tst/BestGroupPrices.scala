@@ -109,6 +109,8 @@ object BestGroupPrices {
       rateCode: String,
       price: BigDecimal,
       rateGroup: String
-  )
-
+  ) {
+    override def toString: String =
+      f"BestGroupPrice($cabinCode, $rateCode, $price%.2f, $rateGroup)"
+  }
 }
