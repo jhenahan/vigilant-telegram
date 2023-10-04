@@ -1,3 +1,15 @@
+.std
+result
+
+# prj-spec dirs
+# <https://github.com/numtide/prj-spec>
+.bin
+.cache
+.config
+.data
+.run
+.local
+
 /*/target/
 target/
 output/
@@ -10,3 +22,8 @@ out/
 /.metals/
 .bsp/
 bsp.log
+
+# nixago: ignore-linked-files
+/.conform.yaml
+/lefthook.yml
+/treefmt.toml
