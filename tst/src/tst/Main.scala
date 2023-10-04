@@ -6,6 +6,23 @@ import cats.effect.{IO, IOApp}
 import tst.BestGroupPrices.{CabinPrice, Rate, getBestGroupPrices}
 import tst.CombinablePromotions._
 
+/** This is a fairly overwrought way to write a tiny application like this one,
+  * but the pattern we're demonstrating is quite scalable. Nearly any
+  * application structure you can imagine can be neatly expressed as a
+  * `Stream[IO, Inputs] => Stream[IO, Outputs]`, and what goes on in that `=>`
+  * can be as complex as you like. This leads to a common program structure:
+  *
+  * {{{
+  * Stream.eval(inputs) // All your effectful configuration logic (env vars, flags, etc.)
+  *   .through(businessLogic) // A Pipe[IO, Inputs, Outputs]
+  *   .compile
+  *   .drain
+  *   .as(ExitCode.Success)
+  * }}}
+  *
+  * where `.compile.drain` just serves to run all the effectful pipeline work
+  * down to an `IO[Unit]`.
+  */
 object Main extends IOApp.Simple {
   override def run: IO[Unit] =
     (exercise1 ++ exercise2).compile.drain
@@ -68,5 +85,4 @@ object ExerciseData {
     Promotion("P4", Seq("P2")),
     Promotion("P5", Seq("P2"))
   )
-
 }

@@ -34,6 +34,10 @@ object CombinablePromotions {
       * I sort of wanted to write a cute little monoid here to canonicalize
       * exclusions instead of relying on Map.+ semantics and .distinct, but I
       * didn't have time to make it pleasant.
+      *
+      * We use `ListMap` from this point on in order to preserve insertion order
+      * on promotions. I'm not certain this is an actual requirement, but it is
+      * necessary to ensure our results match the acceptance data.
       */
     def excludeCombination(
         knownExclusions: ListMap[String, Seq[String]],
@@ -93,7 +97,7 @@ object CombinablePromotions {
       * To the product owner: Ought a unique and uncombinable discount be
       * excluded or included?
       */
-    val combinations = for {
+    val combinations: Seq[Seq[String]] = for {
       promo <- promos
       edges = adjacent(promo)
       valid <- for {
