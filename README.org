@@ -23,7 +23,7 @@ The bulk of the code in this repository is now Nix code, reflecting the sort of 
 The configured versions at this checkout are:
 
 #+begin_example
-Java Version is 17.0.8.1
+Java Version is 17.0.8-1
 Scala Version is 2.13.12
 Mill Version is 0.11.4
 #+end_example

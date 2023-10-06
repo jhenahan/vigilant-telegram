@@ -17,7 +17,8 @@ in
     cat ${jabbaw} > ./jabba
 
     echo "${pkgs.mill.version}" > .mill-version
-    echo "zulu@${pkgs.jdk17.version}" > .jabbarc
+    INSTALLED_JDK="zulu@${pkgs.jdk17.version}"
+    echo "''${INSTALLED_JDK%.*}-''${INSTALLED_JDK##*.}" > .jabbarc
 
     chmod +x ./mill
     chmod +x ./jabba
